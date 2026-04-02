@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>男磨き企画展 | QooBrush × Qoo10</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;900&family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   RESET & VARIABLES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  /* ── 変更②：白＋水色ベース ── */
+  --cyan:         #0BBCD4;
+  --cyan-deep:    #0998AE;
+  --cyan-pale:    #E4F8FB;
+  --cyan-mid:     #B8EEF5;
+  --orange:       #F26419;
+  --orange-pale:  #FEF0E7;
+  --grad-main:    linear-gradient(135deg, #0BBCD4 0%, #2DD4BF 100%);
+  --grad-soft:    linear-gradient(135deg, #E4F8FB 0%, #F0FFFE 100%);
+  --ink:          #1A1A1A;
+  --gray-700:     #3D3D3D;
+  --gray-500:     #6B6B6B;
+  --gray-300:     #AFAFAF;
+  --gray-100:     #F5F7F8;
+  --white:        #FFFFFF;
+  --border:       #E0EEF2;
+  --serif:        'Noto Serif JP', serif;
+  --sans:         'Zen Kaku Gothic New', sans-serif;
+  --r-sm:         6px;
+  --r:            14px;
+  --r-lg:         20px;
+  --sh-sm:        0 2px 12px rgba(11,188,212,0.08);
+  --sh:           0 8px 28px rgba(11,188,212,0.14);
+  --sh-lg:        0 20px 56px rgba(11,188,212,0.18);
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  font-weight: 400;
+  color: var(--ink);
+  background: var(--white);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  /* ── 変更③：スマホ幅に固定 ── */
+  max-width: 430px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ANIMATIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes scaleX {
+  from { transform: scaleX(0); } to { transform: scaleX(1); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-7px); }
+}
+@keyframes barGrow {
+  from { width: 0; } to { width: var(--target-w); }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; } 50% { opacity: .6; }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   HEADER（スマホ用）
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.site-header {
+  position: fixed; top: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; max-width: 430px;
+  z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px;
+  height: 56px;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+.header-logo {
+  font-family: var(--serif);
+  font-weight: 900; font-size: 15px;
+  letter-spacing: 0.04em; color: var(--ink);
+  display: flex; align-items: center; gap: 8px;
+}
+.header-logo-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--grad-main); flex-shrink: 0;
+}
+.header-cta-btn {
+  height: 34px; padding: 0 18px;
+  background: var(--cyan);
+  color: var(--white);
+  font-family: var(--sans);
+  font-size: 12px; font-weight: 700;
+  letter-spacing: 0.06em;
+  border: none; border-radius: 100px; cursor: pointer;
+  transition: background .2s, transform .15s;
+}
+.header-cta-btn:hover { background: var(--cyan-deep); transform: scale(1.04); }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SECTION UTILITIES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.sec { padding: 56px 0; }
+.sec-inner { padding: 0 20px; }
+.sec-eyebrow {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.22em; text-transform: uppercase; margin-bottom: 10px;
+}
+.sec-eyebrow.cyan { color: var(--cyan); }
+.sec-eyebrow.orange { color: var(--orange); }
+.sec-title {
+  font-family: var(--serif);
+  font-weight: 900;
+  font-size: 22px;
+  line-height: 1.45;
+  color: var(--ink); margin-bottom: 12px;
+}
+.sec-lead {
+  font-size: 13px; font-weight: 400;
+  line-height: 1.9; color: var(--gray-700);
+  margin-bottom: 36px;
+}
+.divider {
+  width: 32px; height: 3px;
+  background: var(--grad-main);
+  border-radius: 2px; margin: 14px 0 28px;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   KV HERO（スマホ：縦積み）
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.kv {
+  padding-top: 56px;
+  display: flex; flex-direction: column;
+  position: relative; overflow: hidden;
+  background: var(--white);
+}
+
+/* grid texture */
+.kv::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(var(--cyan-pale) 1px, transparent 1px),
+    linear-gradient(90deg, var(--cyan-pale) 1px, transparent 1px);
+  background-size: 36px 36px;
+  opacity: .6; z-index: 0;
+}
+.kv-glow-cyan {
+  position: absolute; top: -60px; right: -60px;
+  width: 280px; height: 280px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(11,188,212,.13) 0%, transparent 65%);
+  z-index: 0; pointer-events: none;
+}
+
+/* ── KV TEXT BLOCK ── */
+.kv-text {
+  position: relative; z-index: 2;
+  padding: 32px 20px 0;
+  animation: fadeUp .6s ease both;
+}
+
+.kv-badge {
+  display: inline-flex; align-items: center; gap: 7px;
+  width: fit-content;
+  padding: 4px 14px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.1em; color: var(--gray-700);
+  margin-bottom: 22px;
+}
+.kv-badge-pip {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--grad-main); flex-shrink: 0;
+}
+
+.kv-label {
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 0.2em; color: var(--gray-300);
+  text-transform: uppercase; margin-bottom: 14px;
+}
+
+/* ── 変更①・⑤：タイトルと改行 ── */
+.kv-headline {
+  font-family: var(--serif);
+  font-weight: 900;
+  line-height: 1.25;
+  margin-bottom: 6px;
+}
+.kv-headline .l1 {
+  display: block;
+  font-size: 20px;
+  color: var(--cyan);
+  font-weight: 900;
+  letter-spacing: .02em;
+}
+.kv-headline .l2 {
+  display: block;
+  font-size: 28px;
+  color: var(--ink);
+  margin-top: 2px;
+}
+.kv-headline .l3 {
+  display: block;
+  font-size: 28px;
+  color: var(--ink);
+  position: relative;
+  margin-top: 2px;
+}
+.kv-headline .l3::after {
+  content: '';
+  position: absolute; bottom: -2px; left: 0;
+  width: 100%; height: 3px;
+  background: var(--grad-main); border-radius: 2px;
+  transform-origin: left; transform: scaleX(0);
+  animation: scaleX .7s .9s cubic-bezier(.22,1,.36,1) forwards;
+}
+
+.kv-sub {
+  font-size: 13px; line-height: 1.9;
+  color: var(--gray-700);
+  margin-top: 20px;
+  animation: fadeUp .6s .2s ease both;
+}
+.kv-sub strong { color: var(--ink); font-weight: 700; }
+
+.kv-tags {
+  display: flex; flex-wrap: wrap; gap: 7px;
+  margin-top: 18px;
+  animation: fadeUp .6s .3s ease both;
+}
+.kv-tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px 12px;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: .05em;
+  border-radius: 100px; border: 1px solid;
+}
+.kv-tag.t-cyan {
+  color: var(--cyan); border-color: rgba(11,188,212,.3);
+  background: var(--cyan-pale);
+}
+.kv-tag.t-gray {
+  color: var(--gray-700); border-color: var(--border);
+  background: var(--gray-100);
+}
+
+.kv-cta-row {
+  display: flex; flex-direction: column; gap: 12px;
+  margin-top: 28px;
+  animation: fadeUp .6s .4s ease both;
+}
+.btn-primary {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  height: 52px; width: 100%;
+  background: var(--cyan);
+  color: var(--white);
+  font-family: var(--sans);
+  font-size: 15px; font-weight: 700;
+  letter-spacing: .06em;
+  border: none; border-radius: var(--r-sm);
+  cursor: pointer;
+  box-shadow: 0 10px 28px rgba(11,188,212,.36);
+  transition: background .2s, transform .15s;
+}
+.btn-primary:hover { background: var(--cyan-deep); transform: translateY(-2px); }
+.btn-arrow { transition: transform .2s; }
+.btn-primary:hover .btn-arrow { transform: translateX(4px); }
+.kv-note {
+  font-size: 11px; text-align: center;
+  color: var(--gray-300); font-weight: 400; line-height: 1.6;
+}
+
+/* ── KV BEFORE/AFTER CARD ── */
+.kv-ba-block {
+  position: relative; z-index: 2;
+  padding: 28px 20px 0;
+  animation: fadeUp .6s .2s ease both;
+}
+
+.ba-card {
+  display: grid; grid-template-columns: 1fr 1fr;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--sh-lg);
+  position: relative;
+}
+
+.ba-panel {
+  position: relative;
+  min-height: 300px;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 20px 16px;
+}
+
+.ba-before {
+  background: linear-gradient(160deg, #dde4ed 0%, #a8b9d0 100%);
+}
+.ba-after {
+  background: linear-gradient(160deg, #c4eef5 0%, #0BBCD4 100%);
+}
+
+/* ── 変更④：リアルな顔・肌SVG ── */
+.ba-face-wrap {
+  position: absolute; top: 16px; left: 0; right: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* BEFORE face: acne, dull, unhappy */
+.face-before {
+  width: 100px; height: 130px;
+}
+
+/* AFTER face: clear skin, bright, happy */
+.face-after {
+  width: 100px; height: 130px;
+}
+
+.ba-label {
+  display: inline-block;
+  font-size: 9px; font-weight: 900;
+  letter-spacing: .16em;
+  padding: 3px 10px; border-radius: 100px;
+  margin-bottom: 10px; width: fit-content;
+}
+.ba-before .ba-label { background: rgba(255,255,255,.3); color: var(--white); }
+.ba-after  .ba-label { background: rgba(255,255,255,.9); color: var(--cyan); }
+
+.ba-list { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+.ba-item {
+  display: flex; align-items: flex-start; gap: 6px;
+  font-size: 10px; font-weight: 500; color: var(--white);
+  line-height: 1.45;
+}
+.ba-item::before {
+  content: ''; width: 4px; height: 4px; border-radius: 50%;
+  flex-shrink: 0; margin-top: 5px;
+}
+.ba-before .ba-item::before { background: rgba(255,255,255,.5); }
+.ba-after  .ba-item::before { background: var(--white); }
+
+.ba-seam {
+  position: absolute; top: 0; bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 2px; background: rgba(255,255,255,.9); z-index: 8;
+}
+.ba-seam-icon {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: var(--sh); z-index: 10;
+}
+
+/* Float cards */
+.fc {
+  position: absolute; background: var(--white);
+  border-radius: var(--r); padding: 10px 14px;
+  box-shadow: var(--sh); z-index: 20;
+}
+.fc-1 { top: -8px; right: 8px; animation: float 3.5s ease-in-out infinite; }
+.fc-2 { bottom: 48px; right: 8px; animation: float 3.5s 1.8s ease-in-out infinite; }
+.fc-num {
+  font-family: var(--serif);
+  font-size: 19px; font-weight: 900; line-height: 1; color: var(--ink);
+}
+.fc-unit { font-size: 12px; color: var(--cyan); }
+.fc-sub { font-size: 9px; color: var(--gray-300); margin-top: 2px; white-space: nowrap; }
+.fc-stars { color: #F5A623; font-size: 10px; letter-spacing: 1px; margin-bottom: 2px; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   TRUST BAR
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.trust-bar {
+  background: var(--ink);
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1px; background-color: rgba(255,255,255,.08);
+  overflow: hidden;
+}
+.trust-item {
+  background: var(--ink);
+  display: flex; flex-direction: column; align-items: center;
+  padding: 20px 16px; text-align: center;
+}
+.trust-num {
+  font-family: var(--serif);
+  font-size: 28px; font-weight: 900; line-height: 1;
+  background: var(--grad-main);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.trust-num sup { font-size: 14px; }
+.trust-label {
+  font-size: 10px; font-weight: 500;
+  color: rgba(255,255,255,.45);
+  letter-spacing: .06em; margin-top: 5px;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   GAP SECTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.gap-section { background: var(--white); }
+
+.gap-col {
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg); overflow: hidden;
+  margin-bottom: 16px;
+}
+.gap-col-head {
+  padding: 14px 20px;
+  font-size: 11px; font-weight: 700; letter-spacing: .08em;
+  display: flex; align-items: center; gap: 8px;
+}
+.gap-col-head.men   { background: var(--gray-100); color: var(--gray-700); }
+.gap-col-head.women { background: var(--cyan-pale); color: var(--cyan-deep); }
+
+.gap-bars { padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 14px; }
+.bar-row  { display: flex; flex-direction: column; gap: 6px; }
+.bar-label-row { display: flex; justify-content: space-between; align-items: center; }
+.bar-cat  { font-size: 12px; font-weight: 700; color: var(--ink); }
+.bar-pct  { font-size: 11px; font-weight: 700; }
+.bar-track { height: 8px; background: var(--gray-100); border-radius: 4px; overflow: hidden; }
+.bar-fill {
+  height: 100%; border-radius: 4px;
+  animation: barGrow 1s .4s cubic-bezier(.22,1,.36,1) both;
+}
+.fill-cyan   { background: var(--cyan);    --target-w: var(--w); width: var(--target-w); }
+.fill-orange { background: var(--orange);  --target-w: var(--w); width: var(--target-w); }
+.fill-gray   { background: var(--gray-300);--target-w: var(--w); width: var(--target-w); }
+.bar-pct.cyan   { color: var(--cyan); }
+.bar-pct.orange { color: var(--orange); }
+.bar-pct.gray   { color: var(--gray-500); }
+
+.insight-box {
+  background: var(--grad-soft);
+  border: 1px solid rgba(11,188,212,.2);
+  border-radius: var(--r-lg);
+  padding: 24px 20px;
+  display: flex; flex-direction: column; gap: 16px;
+}
+.insight-icon-wrap {
+  width: 44px; height: 44px; flex-shrink: 0;
+  background: var(--cyan-pale);
+  border-radius: var(--r);
+  display: flex; align-items: center; justify-content: center;
+}
+.insight-title {
+  font-family: var(--serif);
+  font-size: 16px; font-weight: 900;
+  color: var(--ink); margin-bottom: 8px; line-height: 1.5;
+}
+.insight-title span { color: var(--cyan); }
+.insight-desc {
+  font-size: 12px; line-height: 1.85; color: var(--gray-700);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   PRODUCT SECTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.product-section { background: var(--gray-100); }
+
+.genre-tabs {
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  gap: 4px; margin-bottom: 28px;
+}
+.genre-tab {
+  padding: 8px 4px;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: .02em;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all .2s;
+  background: var(--white); color: var(--gray-500);
+  text-align: center;
+}
+.genre-tab.active {
+  background: var(--cyan); color: var(--white);
+  border-color: var(--cyan);
+  box-shadow: 0 4px 14px rgba(11,188,212,.28);
+}
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+.product-card {
+  background: var(--white);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  margin-bottom: 16px;
+  transition: box-shadow .25s;
+}
+.product-card:hover { box-shadow: var(--sh-lg); }
+
+.product-img-area {
+  height: 140px;
+  background: var(--gray-100);
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.product-step-badge {
+  position: absolute; top: 10px; left: 10px;
+  padding: 3px 10px;
+  font-size: 9px; font-weight: 900; letter-spacing: .1em;
+  border-radius: 100px;
+  background: var(--cyan); color: var(--white);
+}
+
+.product-body { padding: 16px 18px 18px; }
+.product-reason {
+  font-size: 9px; font-weight: 700; letter-spacing: .1em;
+  color: var(--cyan); margin-bottom: 6px; text-transform: uppercase;
+}
+.product-name {
+  font-family: var(--serif);
+  font-size: 16px; font-weight: 900;
+  color: var(--ink); margin-bottom: 6px; line-height: 1.4;
+}
+.product-desc {
+  font-size: 12px; color: var(--gray-500);
+  line-height: 1.75; margin-bottom: 12px;
+}
+.product-footer {
+  display: flex; align-items: center; justify-content: space-between;
+}
+.product-price {
+  font-family: var(--serif);
+  font-size: 20px; font-weight: 900; color: var(--ink);
+}
+.product-price span { font-size: 11px; color: var(--gray-500); font-weight: 400; font-family: var(--sans); }
+.product-tag-row { display: flex; gap: 5px; margin-bottom: 10px; }
+.product-tag {
+  font-size: 9px; font-weight: 700;
+  padding: 3px 9px; border-radius: 100px; border: 1px solid; letter-spacing: .04em;
+}
+.product-tag.t1 { color: var(--cyan); border-color: rgba(11,188,212,.3); background: var(--cyan-pale); }
+.product-tag.t2 { color: var(--gray-500); border-color: var(--border); background: var(--gray-100); }
+
+.product-buy-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  height: 34px; padding: 0 14px;
+  font-size: 11px; font-weight: 700; letter-spacing: .05em;
+  background: var(--ink); color: var(--white);
+  border: none; border-radius: var(--r-sm);
+  cursor: pointer; transition: background .2s;
+}
+.product-buy-btn:hover { background: var(--cyan); }
+
+.prod-icon-wrap {
+  width: 70px; height: 70px;
+  background: var(--white); border-radius: var(--r);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: var(--sh-sm);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   VOICE SECTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.voice-section { background: var(--ink); }
+.voice-section .sec-title { color: var(--white); }
+.voice-section .sec-lead  { color: rgba(255,255,255,.55); }
+.voice-section .divider   { background: var(--grad-main); }
+
+.voice-card {
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: var(--r-lg); padding: 22px 20px;
+  margin-bottom: 12px;
+  transition: background .2s;
+}
+.voice-card:hover { background: rgba(255,255,255,.08); }
+.voice-card-head {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+}
+.voice-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--grad-soft);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.voice-meta { font-size: 10px; color: rgba(255,255,255,.35); font-weight: 500; }
+.voice-cat  {
+  font-size: 11px; font-weight: 700;
+  color: var(--cyan); margin-top: 2px;
+}
+.voice-text {
+  font-size: 13px; line-height: 1.85;
+  color: rgba(255,255,255,.8);
+}
+.voice-text strong { color: var(--white); font-weight: 700; }
+
+.stat-strip {
+  display: grid; grid-template-columns: 1fr;
+  gap: 1px; background: rgba(255,255,255,.1);
+  border-radius: var(--r); overflow: hidden;
+  margin-top: 36px;
+}
+.stat-cell {
+  background: rgba(255,255,255,.04);
+  padding: 22px 20px; text-align: center;
+}
+.stat-num {
+  font-family: var(--serif);
+  font-size: 36px; font-weight: 900; line-height: 1;
+  background: var(--grad-main);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.stat-label { font-size: 11px; color: rgba(255,255,255,.45); margin-top: 5px; font-weight: 500; }
+.stat-note  { font-size: 9px; color: rgba(255,255,255,.25); margin-top: 3px; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   FLOW SECTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.flow-section { background: var(--white); }
+.flow-steps { display: flex; flex-direction: column; gap: 0; position: relative; }
+.flow-steps::before {
+  content: '';
+  position: absolute; top: 36px; bottom: 36px; left: 35px;
+  width: 2px;
+  background: var(--grad-main); z-index: 0;
+}
+.flow-step {
+  position: relative; z-index: 1;
+  display: flex; align-items: flex-start; gap: 20px;
+  padding: 0 0 28px;
+}
+.flow-num-wrap {
+  width: 72px; height: 72px; flex-shrink: 0;
+  background: var(--white);
+  border: 2px solid var(--border);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color .2s;
+}
+.flow-step:hover .flow-num-wrap {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 4px var(--cyan-pale);
+}
+.flow-num {
+  font-family: var(--serif);
+  font-size: 20px; font-weight: 900;
+  background: var(--grad-main);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.flow-body { padding-top: 18px; }
+.flow-title {
+  font-family: var(--serif);
+  font-size: 15px; font-weight: 900;
+  color: var(--ink); margin-bottom: 5px;
+}
+.flow-desc {
+  font-size: 12px; color: var(--gray-500); line-height: 1.75;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   CTA SECTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.cta-section {
+  background: var(--grad-main); position: relative; overflow: hidden;
+}
+.cta-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);
+  background-size: 36px 36px;
+}
+.cta-inner {
+  position: relative; z-index: 1;
+  padding: 64px 20px; text-align: center;
+}
+.cta-label {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: .22em; text-transform: uppercase;
+  color: rgba(255,255,255,.65); margin-bottom: 16px;
+}
+.cta-title {
+  font-family: var(--serif);
+  font-size: 26px; font-weight: 900; line-height: 1.4;
+  color: var(--white); margin-bottom: 16px;
+}
+.cta-sub {
+  font-size: 13px; color: rgba(255,255,255,.8);
+  line-height: 1.85; margin-bottom: 36px;
+}
+.btn-cta-white {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  height: 54px; width: 100%;
+  background: var(--white); color: var(--cyan);
+  font-family: var(--sans);
+  font-size: 15px; font-weight: 900; letter-spacing: .06em;
+  border: none; border-radius: var(--r-sm);
+  cursor: pointer;
+  box-shadow: 0 14px 40px rgba(0,0,0,.18);
+  transition: box-shadow .2s, transform .15s;
+}
+.btn-cta-white:hover { box-shadow: 0 20px 48px rgba(0,0,0,.24); transform: translateY(-2px); }
+.cta-note { font-size: 11px; color: rgba(255,255,255,.45); margin-top: 16px; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   FOOTER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.site-footer {
+  background: var(--ink);
+  color: rgba(255,255,255,.3);
+  font-size: 10px; letter-spacing: .1em;
+  text-align: center; padding: 24px 20px;
+}
+</style>
+</head>
+<body>
+
+<!-- ─── HEADER ─── -->
+<header class="site-header">
+  <div class="header-logo">
+    <div class="header-logo-dot"></div>
+    男磨き企画展
+  </div>
+  <button class="header-cta-btn" onclick="document.querySelector('.cta-section').scrollIntoView({behavior:'smooth'})">商品を見る</button>
+</header>
+
+<!-- ─── KV HERO ─── -->
+<section class="kv">
+  <div class="kv-glow-cyan"></div>
+
+  <!-- テキストブロック -->
+  <div class="kv-text">
+    <div class="kv-badge">
+      <div class="kv-badge-pip"></div>
+      QooBrush × Qoo10 男磨きプロジェクト
+    </div>
+
+    <p class="kv-label">For Men Who Want to Change</p>
+
+    <!-- 変更①：タイトル変更 / 変更⑤：改行を自然に -->
+    <h1 class="kv-headline">
+      <span class="l1">もう悩まない！</span>
+      <span class="l2">イケ男への</span>
+      <span class="l3">最短経路。</span>
+    </h1>
+
+    <p class="kv-sub">
+      女性343人の本音調査から導いた<strong>「外さない男磨きの正解」</strong>だけを集めました。
+      3ジャンル・厳選商品。あとは買うだけです。
+    </p>
+
+    <div class="kv-tags">
+      <span class="kv-tag t-cyan">
+        <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="5.5" r="5" stroke="currentColor" stroke-width="1.2"/><path d="M3.5 5.5l1.5 1.5 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        初心者でも外さない
+      </span>
+      <span class="kv-tag t-cyan">
+        <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="5.5" r="4" stroke="currentColor" stroke-width="1.2"/><path d="M5.5 3.5v2.5l1.5 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        女性の本音から選定
+      </span>
+      <span class="kv-tag t-gray">Qoo10で購入可能</span>
+    </div>
+
+    <div class="kv-cta-row">
+      <button class="btn-primary" onclick="document.querySelector('.product-section').scrollIntoView({behavior:'smooth'})">
+        まずはここから始める
+        <span class="btn-arrow">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </button>
+      <div class="kv-note">登録不要 · Qoo10でそのまま購入できます</div>
+    </div>
+  </div>
+
+  <!-- 変更④：BEFORE/AFTER リアル顔SVG -->
+  <div class="kv-ba-block">
+    <div style="position:relative;">
+      <div class="ba-card">
+
+        <!-- BEFORE：肌荒れ・ニキビ顔 -->
+        <div class="ba-panel ba-before">
+          <div class="ba-face-wrap">
+            <svg class="face-before" viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- 首 -->
+              <rect x="42" y="90" width="16" height="22" rx="4" fill="rgba(180,160,150,0.5)"/>
+              <!-- 顔の輪郭 -->
+              <ellipse cx="50" cy="55" rx="34" ry="40" fill="#C9A898" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+              <!-- 額・頭 -->
+              <ellipse cx="50" cy="20" rx="30" ry="22" fill="#5C4033"/>
+              <!-- 髪（ボサボサ） -->
+              <path d="M22 28 Q18 14 24 8 Q30 4 38 10" fill="#3B2A20"/>
+              <path d="M78 28 Q82 14 76 8 Q70 4 62 10" fill="#3B2A20"/>
+              <path d="M36 12 Q42 6 50 8 Q58 6 64 12 Q70 8 74 18 Q78 30 76 40 Q70 16 50 14 Q30 16 24 40 Q22 30 26 18Z" fill="#3B2A20"/>
+              <!-- 前髪（乱れ） -->
+              <path d="M28 30 Q32 20 38 24" stroke="#3B2A20" stroke-width="4" stroke-linecap="round" fill="none"/>
+              <path d="M72 30 Q68 20 62 24" stroke="#3B2A20" stroke-width="4" stroke-linecap="round" fill="none"/>
+              <!-- 眉（下がり気味） -->
+              <path d="M33 45 Q40 43 44 46" stroke="#4A2C1A" stroke-width="2" stroke-linecap="round" fill="none"/>
+              <path d="M67 45 Q60 43 56 46" stroke="#4A2C1A" stroke-width="2" stroke-linecap="round" fill="none"/>
+              <!-- 目（細め・疲れた） -->
+              <ellipse cx="39" cy="51" rx="6" ry="4" fill="white"/>
+              <circle cx="39" cy="51" r="2.5" fill="#3B2A20"/>
+              <ellipse cx="61" cy="51" rx="6" ry="4" fill="white"/>
+              <circle cx="61" cy="51" r="2.5" fill="#3B2A20"/>
+              <!-- 隈 -->
+              <ellipse cx="39" cy="55" rx="7" ry="3" fill="rgba(100,60,40,0.2)"/>
+              <ellipse cx="61" cy="55" rx="7" ry="3" fill="rgba(100,60,40,0.2)"/>
+              <!-- 鼻 -->
+              <path d="M50 57 L46 66 Q50 68 54 66 L50 57Z" fill="rgba(150,100,80,0.4)"/>
+              <!-- 口（への字） -->
+              <path d="M41 76 Q50 73 59 76" stroke="#8B5E4A" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+              <!-- ニキビ（赤い点々） -->
+              <circle cx="32" cy="60" r="3" fill="#E05050" opacity="0.85"/>
+              <circle cx="29" cy="68" r="2.2" fill="#D44040" opacity="0.75"/>
+              <circle cx="35" cy="73" r="2.5" fill="#E06060" opacity="0.8"/>
+              <circle cx="68" cy="62" r="2.8" fill="#D04040" opacity="0.8"/>
+              <circle cx="72" cy="70" r="2" fill="#E05050" opacity="0.7"/>
+              <circle cx="65" cy="77" r="3" fill="#C84040" opacity="0.75"/>
+              <circle cx="45" cy="78" r="1.8" fill="#D05050" opacity="0.7"/>
+              <circle cx="55" cy="79" r="2" fill="#CC3333" opacity="0.65"/>
+              <!-- テカリ（ハイライト過剰） -->
+              <ellipse cx="50" cy="42" rx="12" ry="6" fill="rgba(255,220,200,0.25)"/>
+              <!-- バツ印 -->
+              <line x1="45" y1="118" x2="55" y2="126" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round"/>
+              <line x1="55" y1="118" x2="45" y2="126" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div>
+            <span class="ba-label">BEFORE</span>
+            <ul class="ba-list">
+              <li class="ba-item">肌荒れ・ニキビが気になる</li>
+              <li class="ba-item">テカリが目立つ</li>
+              <li class="ba-item">くすんで疲れて見える</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- AFTER：キレイな肌・笑顔 -->
+        <div class="ba-panel ba-after">
+          <div class="ba-face-wrap">
+            <svg class="face-after" viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- 首 -->
+              <rect x="42" y="90" width="16" height="22" rx="4" fill="rgba(200,225,230,0.6)"/>
+              <!-- 顔の輪郭 -->
+              <ellipse cx="50" cy="55" rx="34" ry="40" fill="#F2E0D5" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
+              <!-- 頭・髪（きれいに整った） -->
+              <ellipse cx="50" cy="20" rx="30" ry="22" fill="#3B2A20"/>
+              <path d="M22 32 Q20 14 32 8 Q42 4 50 8 Q58 4 68 8 Q80 14 78 32 Q74 18 50 16 Q26 18 22 32Z" fill="#2E1F14"/>
+              <!-- 整った前髪 -->
+              <path d="M28 30 Q36 22 44 26" fill="#2E1F14"/>
+              <path d="M28 34 Q36 24 48 28" fill="#2E1F14" opacity="0.6"/>
+              <!-- 眉（きれいに整った） -->
+              <path d="M33 44 Q40 41 44 43" stroke="#3B2A20" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+              <path d="M67 44 Q60 41 56 43" stroke="#3B2A20" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+              <!-- 目（明るい） -->
+              <ellipse cx="39" cy="51" rx="7" ry="5" fill="white"/>
+              <circle cx="39" cy="51" r="3" fill="#2A1A10"/>
+              <circle cx="40.5" cy="49.5" r="1.2" fill="white"/>
+              <ellipse cx="61" cy="51" rx="7" ry="5" fill="white"/>
+              <circle cx="61" cy="51" r="3" fill="#2A1A10"/>
+              <circle cx="62.5" cy="49.5" r="1.2" fill="white"/>
+              <!-- まつ毛 -->
+              <path d="M33 47 Q36 44 39 46" stroke="#2A1A10" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+              <path d="M61 46 Q64 44 67 47" stroke="#2A1A10" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+              <!-- 鼻 -->
+              <path d="M50 57 L46 66 Q50 68 54 66 L50 57Z" fill="rgba(180,130,110,0.3)"/>
+              <!-- 口（スマイル） -->
+              <path d="M41 74 Q50 82 59 74" stroke="#B06060" stroke-width="2" stroke-linecap="round" fill="none"/>
+              <!-- 頬の赤み（健康的） -->
+              <ellipse cx="31" cy="66" rx="7" ry="5" fill="rgba(240,160,130,0.25)"/>
+              <ellipse cx="69" cy="66" rx="7" ry="5" fill="rgba(240,160,130,0.25)"/>
+              <!-- 肌のツヤ感 -->
+              <ellipse cx="50" cy="40" rx="10" ry="5" fill="rgba(255,255,255,0.2)"/>
+              <ellipse cx="34" cy="55" rx="4" ry="3" fill="rgba(255,255,255,0.12)"/>
+              <ellipse cx="66" cy="55" rx="4" ry="3" fill="rgba(255,255,255,0.12)"/>
+              <!-- きれいな肌の証：光の反射 -->
+              <circle cx="35" cy="48" r="1.5" fill="rgba(255,255,255,0.5)"/>
+              <!-- チェックマーク -->
+              <path d="M42 118 L50 126 L62 112" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <!-- スパークル -->
+              <path d="M18 46 L20 42 L22 46 L20 50Z" fill="rgba(255,255,255,0.7)"/>
+              <path d="M80 40 L81.5 37 L83 40 L81.5 43Z" fill="rgba(255,255,255,0.6)"/>
+            </svg>
+          </div>
+          <div>
+            <span class="ba-label">AFTER</span>
+            <ul class="ba-list">
+              <li class="ba-item">肌が明るくなった</li>
+              <li class="ba-item">清潔感が自然と出る</li>
+              <li class="ba-item">第一印象が変わった</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 中央ライン -->
+        <div class="ba-seam">
+          <div class="ba-seam-icon">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M4.5 7h5M8 4.5l3 2.5-3 2.5M6 4.5L3 7l3 2.5" stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- フロートカード -->
+      <div class="fc fc-1">
+        <div class="fc-num">10<span class="fc-unit">万+</span></div>
+        <div class="fc-sub">Qoo10 販売実績</div>
+      </div>
+      <div class="fc fc-2">
+        <div class="fc-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div class="fc-sub">女性343人の本音から選定</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TRUST BAR ─── -->
+<div class="trust-bar">
+  <div class="trust-item">
+    <div class="trust-num">4.8<sup>/5.0</sup></div>
+    <div class="trust-label">掲載商品の平均評価</div>
+  </div>
+  <div class="trust-item">
+    <div class="trust-num">343</div>
+    <div class="trust-label">女性への調査人数</div>
+  </div>
+  <div class="trust-item">
+    <div class="trust-num">92<sup>%</sup></div>
+    <div class="trust-label">「変化を実感した」回答率</div>
+  </div>
+  <div class="trust-item">
+    <div class="trust-num">5</div>
+    <div class="trust-label">対応ジャンル数</div>
+  </div>
+</div>
+
+<!-- ─── GAP SECTION ─── -->
+<section class="sec gap-section">
+  <div class="sec-inner">
+    <p class="sec-eyebrow cyan">Key Insight</p>
+    <h2 class="sec-title">男性の思い込みと、女性が実際に見ているものは違う。</h2>
+    <div class="divider"></div>
+    <p class="sec-lead">
+      「男性が女性に評価されると思っている要素」と「女性が実際に男性を見るときの要素」。このズレを知ることが、男磨きの最短ルートです。
+    </p>
+
+    <div class="gap-col">
+      <div class="gap-col-head men">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5.5" r="3" stroke="#3D3D3D" stroke-width="1.3"/><path d="M2 14c0-3.31 2.69-6 6-6s6 2.69 6 6" stroke="#3D3D3D" stroke-width="1.3" stroke-linecap="round"/></svg>
+        男性が「評価されると思う要素」
+      </div>
+      <div class="gap-bars">
+        <div class="bar-row">
+          <div class="bar-label-row"><span class="bar-cat">ファッション</span><span class="bar-pct orange">44%</span></div>
+          <div class="bar-track"><div class="bar-fill fill-orange" style="--w:44%"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label-row"><span class="bar-cat">肌・スキンケア</span><span class="bar-pct gray">36%</span></div>
+          <div class="bar-track"><div class="bar-fill fill-gray" style="--w:36%"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label-row"><span class="bar-cat">匂い・香り</span><span class="bar-pct gray">8%</span></div>
+          <div class="bar-track"><div class="bar-fill fill-gray" style="--w:8%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="gap-col">
+      <div class="gap-col-head women">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5.5" r="3" stroke="#0998AE" stroke-width="1.3"/><path d="M2 14c0-3.31 2.69-6 6-6s6 2.69 6 6" stroke="#0998AE" stroke-width="1.3" stroke-linecap="round"/></svg>
+        女性が「実際に男性を見る際の要素」（n=343）
+      </div>
+      <div class="gap-bars">
+        <div class="bar-row">
+          <div class="bar-label-row"><span class="bar-cat">匂い・香り</span><span class="bar-pct cyan">38%</span></div>
+          <div class="bar-track"><div class="bar-fill fill-cyan" style="--w:38%"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label-row"><span class="bar-cat">肌・スキンケア</span><span class="bar-pct cyan">31%</span></div>
+          <div class="bar-track"><div class="bar-fill fill-cyan" style="--w:31%"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label-row"><span class="bar-cat">ファッション</span><span class="bar-pct gray">19%</span></div>
+          <div class="bar-track"><div class="bar-fill fill-gray" style="--w:19%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="insight-box">
+      <div class="insight-icon-wrap">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9" stroke="#0BBCD4" stroke-width="1.5"/><path d="M11 7v4l2.5 2.5" stroke="#0BBCD4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div>
+        <div class="insight-title">
+          男性がファッションに力を入れている間、女性は<span>「匂い」と「肌」</span>を見ている。
+        </div>
+        <div class="insight-desc">
+          この企画展では、女性の本音調査データをもとに、男性が見落としがちな要素から順番に商品を選定しています。「正解を知らなかっただけ」というケースが、実際に多数確認されています。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PRODUCT SECTION ─── -->
+<section class="sec product-section">
+  <div class="sec-inner">
+    <p class="sec-eyebrow cyan">厳選商品</p>
+    <h2 class="sec-title">迷わず買える、正解だけを集めました。</h2>
+    <div class="divider"></div>
+    <p class="sec-lead">
+      基準は「迷わない・安い・変化が早い・続けやすい」の4点。各カテゴリから初心者向けに厳選した商品のみ掲載しています。
+    </p>
+
+    <div class="genre-tabs" id="genreTabs">
+      <button class="genre-tab active" data-tab="skincare">スキンケア</button>
+      <button class="genre-tab" data-tab="fashion">ファッション</button>
+      <button class="genre-tab" data-tab="interior">インテリア</button>
+      <button class="genre-tab" data-tab="scent">匂い</button>
+      <button class="genre-tab" data-tab="hair">ヘアケア</button>
+    </div>
+
+    <!-- SKINCARE -->
+    <div class="tab-content active" id="tab-skincare">
+
+      <div class="product-card">
+        <div class="product-img-area">
+          <span class="product-step-badge">STEP 1</span>
+          <div class="prod-icon-wrap">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect x="10" y="6" width="20" height="28" rx="4" stroke="#0BBCD4" stroke-width="1.6"/><path d="M15 6V4a1 1 0 011-1h8a1 1 0 011 1v2" stroke="#0BBCD4" stroke-width="1.5"/><circle cx="20" cy="20" r="4" fill="rgba(11,188,212,0.15)" stroke="#0BBCD4" stroke-width="1.3"/></svg>
+          </div>
+        </div>
+        <div class="product-body">
+          <div class="product-reason">女性評価 No.1</div>
+          <div class="product-tag-row">
+            <span class="product-tag t1">泡立て不要</span>
+            <span class="product-tag t2">1ステップ</span>
+          </div>
+          <div class="product-name">酵素洗顔パウダー</div>
+          <div class="product-desc">水で溶かして塗るだけ。1ステップで続けやすく、肌荒れの改善が最短1週間で確認できます。</div>
+          <div class="product-footer">
+            <div class="product-price">¥2,480<span> 〜</span></div>
+            <button class="product-buy-btn">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 2h1.5l1.5 5.5h4.5l1-3.5H5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="10" r=".9" fill="currentColor"/><circle cx="4" cy="10" r=".9" fill="currentColor"/></svg>
+              Qoo10で見る
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img-area">
+          <span class="product-step-badge">STEP 2</span>
+          <div class="prod-icon-wrap">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect x="12" y="5" width="16" height="30" rx="4" stroke="#0BBCD4" stroke-width="1.6"/><path d="M16 5V3a1 1 0 011-1h6a1 1 0 011 1v2" stroke="#0BBCD4" stroke-width="1.5"/><circle cx="20" cy="20" r="5" fill="rgba(11,188,212,0.12)" stroke="#0BBCD4" stroke-width="1.3"/><path d="M18 20l1.5 1.5 2.5-2.5" stroke="#0BBCD4" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        <div class="product-body">
+          <div class="product-reason">さっぱり使いやすい</div>
+          <div class="product-tag-row">
+            <span class="product-tag t1">1プッシュ</span>
+            <span class="product-tag t2">メンズ対応</span>
+          </div>
+          <div class="product-name">化粧水 TONER</div>
+          <div class="product-desc">さっぱりした使い心地で男性が最も続けやすいタイプ。1プッシュで量を調整できるので、初めてでも失敗しません。</div>
+          <div class="product-footer">
+            <div class="product-price">¥3,200<span> 〜</span></div>
+            <button class="product-buy-btn">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 2h1.5l1.5 5.5h4.5l1-3.5H5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="10" r=".9" fill="currentColor"/><circle cx="4" cy="10" r=".9" fill="currentColor"/></svg>
+              Qoo10で見る
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img-area">
+          <span class="product-step-badge">STEP 3</span>
+          <div class="prod-icon-wrap">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="12" stroke="#0BBCD4" stroke-width="1.6"/><path d="M14 20c0-3.31 2.69-6 6-6s6 2.69 6 6-2.69 6-6 6" stroke="#0BBCD4" stroke-width="1.5" stroke-linecap="round"/><path d="M20 13v2M20 27v2M13 20h2M27 20h2" stroke="#F26419" stroke-width="1.4" stroke-linecap="round"/></svg>
+          </div>
+        </div>
+        <div class="product-body">
+          <div class="product-reason">清潔感に直結</div>
+          <div class="product-tag-row">
+            <span class="product-tag t1">SPF50+</span>
+            <span class="product-tag t2">ノンオイル</span>
+          </div>
+          <div class="product-name">日焼け止め SPF50+</div>
+          <div class="product-desc">塗るだけで清潔感が上がる即効アイテム。女性が「肌がきれいな男性に好感を持つ」と回答した調査と最も連動した商品です。</div>
+          <div class="product-footer">
+            <div class="product-price">¥1,980<span> 〜</span></div>
+            <button class="product-buy-btn">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 2h1.5l1.5 5.5h4.5l1-3.5H5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="10" r=".9" fill="currentColor"/><circle cx="4" cy="10" r=".9" fill="currentColor"/></svg>
+              Qoo10で見る
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- FASHION -->
+    <div class="tab-content" id="tab-fashion">
+      <div class="product-card">
+        <div class="product-img-area">
+          <span class="product-step-badge">定番</span>
+          <div class="prod-icon-wrap">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M12 10h16l2 6H10l2-6z" stroke="#3D3D3D" stroke-width="1.6" stroke-linejoin="round"/><rect x="10" y="16" width="20" height="20" rx="2" stroke="#3D3D3D" stroke-width="1.6"/><path d="M17 10v3a3 3 0 006 0v-3" stroke="#3D3D3D" stroke-width="1.4" stroke-linecap="round"/></svg>
+          </div>
+        </div>
+        <div class="product-body">
+          <div class="product-reason">白 / グレー / 黒 限定</div>
+          <div class="product-tag-row">
+            <span class="product-tag t1">清潔感</span>
+            <span class="product-tag t2">3,000円以下</span>
+          </div>
+          <div class="product-name">モノトーン無地 T シャツ</div>
+          <div class="product-desc">どの服とも合わせやすいモノトーン系で統一。女性レビューで「清潔感がある」という評価を確認した商品のみ選定しています。</div>
+          <div class="product-footer">
+            <div class="product-price">¥1,990<span> 〜</span></div>
+            <button class="product-buy-btn">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 2h1.5l1.5 5.5h4.5l1-3.5H5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="10" r=".9" fill="currentColor"/><circle cx="4" cy="10" r=".9" fill="currentColor"/></svg>
+              Qoo10で見る
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INTERIOR -->
+    <div class="tab-content" id="tab-interior">
+      <div class="product-card">
+        <div class="product-img-area">
+          <span class="product-step-badge">即日変わる</span>
+          <div class="prod-icon-wrap">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M20 8L20 16" stroke="#0BBCD4" stroke-width="2" stroke-linecap="round"/><path d="M13 13L18 18M27 13L22 18" stroke="#0BBCD4" stroke-width="1.5" stroke-linecap="round"/><circle cx="20" cy="22" r="6" fill="rgba(11,188,212,0.12)" stroke="#0BBCD4" stroke-width="1.6"/><path d="M12 31h16" stroke="#3D3D3D" stroke-width="1.4" stroke-linecap="round"/><path d="M17 31v3h6v-3" stroke="#3D3D3D" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        <div class="product-body">
+          <div class="product-reason">1個で雰囲気が変わる</div>
+          <div class="product-tag-row">
+            <span class="product-tag t1">USB給電</span>
+            <span class="product-tag t2">挿すだけ</span>
+          </div>
+          <div class="product-name">間接照明</div>
+          <div class="product-desc">工具不要・USBで挿すだけ。部屋の雰囲気を1個で変えられる最短アイテムです。おうちデートの印象にも直結します。</div>
+          <div class="product-footer">
+            <div class="product-price">¥2,980<span> 〜</span></div>
+            <button class="product-buy-btn">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 2h1.5l1.5 5.5h4.5l1-3.5H5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="10" r=".9" fill="currentColor"/><circle cx="4" cy="10" r=".9" fill="currentColor"/></svg>
+              Qoo10で見る
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCENT -->
+    <div class="tab-content" id="tab-scent">
+      <div class="product-card">
+        <div class="product-img-area">
+          <span class="product-step-badge">女性評価 最高</span>
+          <div class="prod-icon-wrap">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M20 32Q12 26 12 18a8 8 0 1116 0Q28 26 20 32z" stroke="#0BBCD4" stroke-width="1.6" fill="rgba(11,188,212,0.1)"/><path d="M16 15Q20 12 24 15" stroke="#0BBCD4" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg>
+          </div>
+        </div>
+        <div class="product-body">
+          <div class="product-reason">学校・職場でも使える</div>
+          <div class="product-tag-row">
+            <span class="product-tag t1">女性ウケ良い</span>
+            <span class="product-tag t2">ボディミスト</span>
+          </div>
+          <div class="product-name">ボディミスト</div>
+          <div class="product-desc">強すぎず、ほのかに香るボディミスト。女性調査で「男性の匂いが一番気になる」と最も多く回答されたジャンルのアイテムです。</div>
+          <div class="product-footer">
+            <div class="product-price">¥1,980<span> 〜</span></div>
+            <button class="product-buy-btn">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 2h1.5l1.5 5.5h4.5l1-3.5H5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="10" r=".9" fill="currentColor"/><circle cx="4" cy="10" r=".9" fill="currentColor"/></svg>
+              Qoo10で見る
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HAIR -->
+    <div class="tab-content" id="tab-hair">
+      <div class="product-card">
+        <div class="product-img-area">
+          <span class="product-step-badge">STEP 1</span>
+          <div class="prod-icon-wrap">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M14 34Q14 24 20 20Q26 24 26 34" stroke="#0BBCD4" stroke-width="1.6" stroke-linecap="round" fill="none"/><path d="M12 20Q20 12 28 20" stroke="#0BBCD4" stroke-width="1.5" stroke-linecap="round" fill="none"/><path d="M16 24Q20 21 24 24" stroke="#F26419" stroke-width="1.3" stroke-linecap="round" fill="none"/></svg>
+          </div>
+        </div>
+        <div class="product-body">
+          <div class="product-reason">3ステップ以内</div>
+          <div class="product-tag-row">
+            <span class="product-tag t1">メンズ用</span>
+            <span class="product-tag t2">1,500円以下</span>
+          </div>
+          <div class="product-name">メンズ用ヘアワックス</div>
+          <div class="product-desc">セット時間3分以内で決まるヘアワックス。1本持っておくだけで、髪型が整い印象が変わります。</div>
+          <div class="product-footer">
+            <div class="product-price">¥1,200<span> 〜</span></div>
+            <button class="product-buy-btn">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 2h1.5l1.5 5.5h4.5l1-3.5H5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="10" r=".9" fill="currentColor"/><circle cx="4" cy="10" r=".9" fill="currentColor"/></svg>
+              Qoo10で見る
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── VOICE SECTION ─── -->
+<section class="sec voice-section">
+  <div class="sec-inner">
+    <p class="sec-eyebrow cyan">女子の本音</p>
+    <h2 class="sec-title">女性が実際に語った、男磨きへの評価。</h2>
+    <div class="divider"></div>
+    <p class="sec-lead">
+      高校生から社会人までの女性343人への調査から、実際のコメントを掲載しています。男性が気づいていなかったポイントが、ここに集まっています。
+    </p>
+
+    <div class="voice-card">
+      <div class="voice-card-head">
+        <div class="voice-avatar">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6" r="3" stroke="#0BBCD4" stroke-width="1.3"/><path d="M3 16c0-3.31 2.69-6 6-6s6 2.69 6 6" stroke="#0BBCD4" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </div>
+        <div>
+          <div class="voice-meta">大学生 / 20歳</div>
+          <div class="voice-cat">スキンケア</div>
+        </div>
+      </div>
+      <div class="voice-text">「肌がきれいな男性って、それだけで<strong>第一印象がすごく変わる</strong>。手入れしてるんだなと感じると好感を持ちます。」</div>
+    </div>
+
+    <div class="voice-card">
+      <div class="voice-card-head">
+        <div class="voice-avatar">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6" r="3" stroke="#0BBCD4" stroke-width="1.3"/><path d="M3 16c0-3.31 2.69-6 6-6s6 2.69 6 6" stroke="#0BBCD4" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </div>
+        <div>
+          <div class="voice-meta">社会人 / 23歳</div>
+          <div class="voice-cat">匂い</div>
+        </div>
+      </div>
+      <div class="voice-text">「男性の匂いは一番最初に気づく部分です。<strong>いい匂いがするだけで清潔感があると感じる</strong>し、逆に気になる匂いがすると距離を置いてしまいます。」</div>
+    </div>
+
+    <div class="voice-card">
+      <div class="voice-card-head">
+        <div class="voice-avatar">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6" r="3" stroke="#0BBCD4" stroke-width="1.3"/><path d="M3 16c0-3.31 2.69-6 6-6s6 2.69 6 6" stroke="#0BBCD4" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </div>
+        <div>
+          <div class="voice-meta">高校生 / 17歳</div>
+          <div class="voice-cat">ファッション</div>
+        </div>
+      </div>
+      <div class="voice-text">「ブランドとかではなくて、<strong>シンプルで清潔感がある服装</strong>が一番好き。白シャツ一枚でも、ちゃんとしてる人は全然違って見えます。」</div>
+    </div>
+
+    <div class="voice-card">
+      <div class="voice-card-head">
+        <div class="voice-avatar">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6" r="3" stroke="#0BBCD4" stroke-width="1.3"/><path d="M3 16c0-3.31 2.69-6 6-6s6 2.69 6 6" stroke="#0BBCD4" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </div>
+        <div>
+          <div class="voice-meta">社会人 / 26歳</div>
+          <div class="voice-cat">インテリア</div>
+        </div>
+      </div>
+      <div class="voice-text">「部屋が片付いていて<strong>いい香りがする部屋</strong>の男性は、それだけで信頼感が上がります。おしゃれでなくていい。清潔感があることが大事。」</div>
+    </div>
+
+    <div class="stat-strip">
+      <div class="stat-cell">
+        <div class="stat-num">60<sup style="font-size:16px;font-family:var(--sans)">%</sup></div>
+        <div class="stat-label">第一印象は「肌」で決まると回答</div>
+        <div class="stat-note">n=343 / チーム独自調査</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">38<sup style="font-size:16px;font-family:var(--sans)">%</sup></div>
+        <div class="stat-label">最初に「匂い」が気になると回答</div>
+        <div class="stat-note">n=343 / チーム独自調査</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">76<sup style="font-size:16px;font-family:var(--sans)">%</sup></div>
+        <div class="stat-label">Qoo10ユーザーの女性比率</div>
+        <div class="stat-note">参照：Qoo10大学 / eBay Japan 2025年度経営方針</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FLOW SECTION ─── -->
+<section class="sec flow-section">
+  <div class="sec-inner">
+    <p class="sec-eyebrow cyan">使い方</p>
+    <h2 class="sec-title">男磨きの進め方は、5ステップで全部わかります。</h2>
+    <div class="divider"></div>
+
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="flow-num-wrap"><span class="flow-num">01</span></div>
+        <div class="flow-body">
+          <div class="flow-title">気づく</div>
+          <div class="flow-desc">SNSや周りの影響で「変わりたい」と思う。ここから始まります。</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num-wrap"><span class="flow-num">02</span></div>
+        <div class="flow-body">
+          <div class="flow-title">ジャンルを選ぶ</div>
+          <div class="flow-desc">スキンケア・ファッション・インテリアから気になるカテゴリを選択。</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num-wrap"><span class="flow-num">03</span></div>
+        <div class="flow-body">
+          <div class="flow-title">商品を選ぶ</div>
+          <div class="flow-desc">各カテゴリ3〜5商品に絞り込み。選ぶ迷いをなくしました。</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num-wrap"><span class="flow-num">04</span></div>
+        <div class="flow-body">
+          <div class="flow-title">Qoo10で購入</div>
+          <div class="flow-desc">クーポン・セール活用で購入コストを最小に。まず1本から。</div>
+        </div>
+      </div>
+      <div class="flow-step" style="padding-bottom:0;">
+        <div class="flow-num-wrap"><span class="flow-num">05</span></div>
+        <div class="flow-body">
+          <div class="flow-title">続けて、広げる</div>
+          <div class="flow-desc">変化を実感したら次のジャンルへ。男磨きのサイクルが生まれます。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA ─── -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <div class="cta-label">まずはここから</div>
+    <h2 class="cta-title">迷う時間は、もう終わりです。</h2>
+    <p class="cta-sub">選ばれた商品が、ここにあります。あとは、買うだけです。</p>
+    <button class="btn-cta-white">
+      男磨き商品を全て見る
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="cta-note">Qoo10アカウント不要で閲覧できます。購入時のみログインが必要です。</div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer class="site-footer">
+  QooBrush × Qoo10 男磨き企画展 · 掲載情報は2026年時点のものです
+</footer>
+
+<script>
+  // Tab switching
+  document.querySelectorAll('.genre-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.dataset.tab;
+      document.querySelectorAll('.genre-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      tab.classList.add('active');
+      const el = document.getElementById('tab-' + target);
+      if (el) el.classList.add('active');
+    });
+  });
+
+  // Scroll reveal
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+
+  document.querySelectorAll('.product-card, .voice-card, .flow-step, .gap-col, .insight-box, .stat-cell, .trust-item').forEach((el, i) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = `opacity .5s ${i*0.06}s ease, transform .5s ${i*0.06}s ease`;
+    obs.observe(el);
+  });
+</script>
+</body>
+</html>
